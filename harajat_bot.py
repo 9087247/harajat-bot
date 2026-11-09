@@ -7,6 +7,7 @@ import os
 import sqlite3
 import logging
 from datetime import datetime, timedelta, time
+from html import escape
 from zoneinfo import ZoneInfo
 
 from telegram import (Update, ReplyKeyboardMarkup, InlineKeyboardButton,
@@ -116,7 +117,7 @@ def parse_amount(text):
 # ====== ASOSIY BUYRUQLAR ======
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        f"Assalomu alaykum, {update.effective_user.first_name}! 👋\n\n"
+        f"Assalomu alaykum, {escape(update.effective_user.first_name)}! 👋\n\n"
         "Men kunlik xarajatlaringizni hisoblab boraman.\n\n"
         "• Xarajat qo'shish uchun tugmani bosing yoki tez yozing:\n"
         "   <code>25000 taksi</code>\n"
@@ -219,8 +220,8 @@ async def report(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for r in rows:
         lines.append(
             f"#{r['id']} | 🕒 {fmt_date(r['created_at'])}\n"
-            f"💰 {fmt_sum(r['amount'])} — {r['description']}\n"
-            f"📍 {r['place'] or '—'}\n")
+            f"💰 {fmt_sum(r['amount'])} — {escape(r['description'])}\n"
+            f"📍 {escape(r['place'] or '—')}\n")
     total = sum(r["amount"] for r in rows)
     footer = f"\n<b>Jami: {fmt_sum(total)}</b> ({len(rows)} ta xarajat)"
 
@@ -238,7 +239,7 @@ async def report(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ====== ESLATMALAR ======
 async def send_reminder(context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(context.job.chat_id,
-                                   f"🔔 <b>Eslatma:</b>\n{context.job.data}",
+                                   f"🔔 <b>Eslatma:</b>\n{escape(context.job.data)}",
                                    parse_mode="HTML")
 
 
