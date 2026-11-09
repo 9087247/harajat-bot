@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "deploy": {
-    "startCommand": "python main.py",
+    "startCommand": "python harajat_bot.py",
     "restartPolicyType": "ALWAYS"
   }
 }
