@@ -1,0 +1,6 @@
+.env
+.venv/
+__pycache__/
+media/
+hujjatlar/
+bot.log
